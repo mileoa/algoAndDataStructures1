@@ -30,6 +30,10 @@ class LinkedListTests(unittest.TestCase):
         self.assertEqual(self.one_el_linked_list.head.value, 10)
         self.assertEqual(self.one_el_linked_list.tail.value, 10)
 
+        self.one_el_linked_list.delete(11, True)
+        self.assertEqual(self.one_el_linked_list.head.value, 10)
+        self.assertEqual(self.one_el_linked_list.tail.value, 10)
+
         self.one_el_linked_list.delete(10, False)
         self.assertEqual(self.one_el_linked_list.head, None)
         self.assertEqual(self.one_el_linked_list.tail, None)
