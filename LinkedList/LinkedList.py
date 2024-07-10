@@ -93,3 +93,8 @@ class LinkedList:
             newNode.next = next_node
             if afterNode is self.tail:
                 self.tail = newNode
+
+
+
+
+
