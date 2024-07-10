@@ -98,6 +98,19 @@ class LinkedListTests(unittest.TestCase):
         self.assertEqual(self.one_el_linked_list.len(), 1)
         self.assertEqual(self.lot_el_linked_list.len(), 1000)
 
+    def test_regression_insert(self):
+        self.empty_linked_list.insert(None, Node(1))
+        self.assertEqual(self.empty_linked_list.head.value, 1)
+        self.assertEqual(self.empty_linked_list.tail.value, 1)
+
+        self.empty_linked_list.insert(None, Node(2))
+        self.assertEqual(self.empty_linked_list.head.value, 2)
+        self.assertEqual(self.empty_linked_list.tail.value, 1)
+
+        self.empty_linked_list.insert(self.empty_linked_list.find(1), Node(3))
+        self.assertEqual(self.empty_linked_list.head.value, 2)
+        self.assertEqual(self.empty_linked_list.tail.value, 3)
+
     def tearDown(self):
         self.empty_linked_list = None
         self.one_el_linked_list = None
