@@ -164,19 +164,19 @@ class LinkedListTests(unittest.TestCase):
         self.assertEqual(el1.next, None)
 
         el2 = Node(2)
-        self.empty_linked_list.insert(None, el2)
-        self.assertEqual(self.empty_linked_list.head, el2)
-        self.assertEqual(self.empty_linked_list.tail, el1)
-        self.assertEqual(el1.next, None)
-        self.assertEqual(el2.next, el1)
+        self.empty_linked_list.insert(el1, el2)
+        self.assertEqual(self.empty_linked_list.head, el1)
+        self.assertEqual(self.empty_linked_list.tail, el2)
+        self.assertEqual(el1.next, el2)
+        self.assertEqual(el2.next, None)
 
         el3 = Node(3)
         self.empty_linked_list.insert(self.empty_linked_list.find(1), el3)
-        self.assertEqual(self.empty_linked_list.head, el2)
-        self.assertEqual(self.empty_linked_list.tail, el3)
-        self.assertEqual(el2.next, el1)
+        self.assertEqual(self.empty_linked_list.head, el1)
+        self.assertEqual(self.empty_linked_list.tail, el2)
         self.assertEqual(el1.next, el3)
-        self.assertEqual(el3.next, None)
+        self.assertEqual(el3.next, el2)
+        self.assertEqual(el2.next, None)
 
     def tearDown(self):
         self.empty_linked_list = None
