@@ -10,11 +10,15 @@ class LinkedListTests(unittest.TestCase):
         self.empty_linked_list = LinkedList()
 
         self.one_el_linked_list = LinkedList()
-        self.one_el_linked_list.add_in_tail(Node(10))
+        self.one_el = Node(10)
+        self.one_el_linked_list.add_in_tail(self.one_el)
 
         self.lot_el_linked_list = LinkedList()
+        self.lot_el = []
         for i in range(1000):
-            self.lot_el_linked_list.add_in_tail(Node(i))
+            el = Node(i)
+            self.lot_el.append(el)
+            self.lot_el_linked_list.add_in_tail(el)
 
     def test_regression_delete_empty_list(self):
         self.empty_linked_list.delete(1, False)
@@ -29,39 +33,85 @@ class LinkedListTests(unittest.TestCase):
         self.one_el_linked_list.delete(11, False)
         self.assertEqual(self.one_el_linked_list.head.value, 10)
         self.assertEqual(self.one_el_linked_list.tail.value, 10)
+        self.assertEqual(self.one_el.value, 10)
+        self.assertEqual(self.one_el.next, None)
 
         self.one_el_linked_list.delete(11, True)
         self.assertEqual(self.one_el_linked_list.head.value, 10)
         self.assertEqual(self.one_el_linked_list.tail.value, 10)
+        self.assertEqual(self.one_el.value, 10)
+        self.assertEqual(self.one_el.next, None)
 
         self.one_el_linked_list.delete(10, False)
         self.assertEqual(self.one_el_linked_list.head, None)
         self.assertEqual(self.one_el_linked_list.tail, None)
+        self.assertEqual(self.one_el.value, 10)
+        self.assertEqual(self.one_el.next, None)
 
     def test_regression_delete_lot_el_list(self):
         self.lot_el_linked_list.delete(11, False)
         self.assertEqual(self.lot_el_linked_list.head.value, 0)
         self.assertEqual(self.lot_el_linked_list.tail.value, 999)
-        for i in range(1000):
+        for i in range(1000 - 1):
             if i == 11:
-                self.assertEqual(self.lot_el_linked_list.find(11), None)
+                self.assertEqual(self.lot_el_linked_list.find(i), None)
+                self.assertEqual(self.lot_el[i].next, None)
+                self.assertEqual(self.lot_el[i].value, i)
                 continue
+            if i == 10:
+                self.assertEqual(self.lot_el[i].next, self.lot_el[i + 2])
+                self.assertEqual(self.lot_el[i].value, i)
+                continue
+            if i == 998:
+                self.assertEqual(self.lot_el_linked_list.find(i).value, i)
+                self.assertEqual(self.lot_el[i].next, self.lot_el[999])
+                self.assertEqual(self.lot_el[999].next, None)
             self.assertEqual(self.lot_el_linked_list.find(i).value, i)
+            self.assertEqual(self.lot_el[i].next, self.lot_el[i + 1])
 
-        self.lot_el_linked_list.add_in_tail(Node(0))
+        el = Node(0)
+        self.lot_el.append(el)
+        self.lot_el_linked_list.add_in_tail(el)
         self.lot_el_linked_list.delete(0, True)
         self.assertEqual(self.lot_el_linked_list.head.value, 1)
         self.assertEqual(self.lot_el_linked_list.tail.value, 999)
-        for i in range(1000):
-            if i == 0 or i == 11:
-                self.assertEqual(self.lot_el_linked_list.find(0), None)
+        self.assertEqual(self.lot_el_linked_list.find(0), None)
+        for i in range(1001):
+            if i == 0 or i == 1000 or i == 999 or i == 11:
+                self.assertEqual(self.lot_el[i].next, None)
                 continue
-            self.assertEqual(self.lot_el_linked_list.find(i).value, i)
+            if i == 10:
+                self.assertEqual(self.lot_el[i].next, self.lot_el[i + 2])
+                self.assertEqual(self.lot_el[i].value, i)
+                continue
+            self.assertEqual(self.lot_el[i].next, self.lot_el[i + 1])
 
-        self.lot_el_linked_list.add_in_tail(Node(1))
-        self.lot_el_linked_list.delete(1, False)
-        self.assertEqual(self.lot_el_linked_list.head.value, 2)
-        self.assertEqual(self.lot_el_linked_list.tail.value, 1)
+    def test_random_delete(self):
+        for i in range(10000):
+            nodes = []
+            linked_list = LinkedList()
+            repeats = random.randint(0, 100)
+            for i in range(repeats):
+                n = Node(random.randint(0, 5))
+                nodes.append(n)
+                linked_list.add_in_tail(n)
+            to_delete = random.randint(0, 5)
+            linked_list.delete(to_delete, True)
+            first = None
+            last = None
+            for i, n in enumerate(nodes):
+                if n.value == to_delete:
+                    self.assertEqual(n.next, None)
+                    continue
+                if first is None:
+                    first = n
+                last = n
+                for j in range(i + 1, repeats):
+                    if nodes[j].value != to_delete:
+                        self.assertEqual(n.next, nodes[j])
+                        break
+            self.assertEqual(linked_list.head, first)
+            self.assertEqual(linked_list.tail, last)
 
     def test_regression_empty_linked_list(self):
         self.empty_linked_list.clean()
@@ -70,11 +120,15 @@ class LinkedListTests(unittest.TestCase):
 
     def test_regression_clean_one_el_list(self):
         self.one_el_linked_list.clean()
+        self.assertEqual(self.one_el.next, None)
         self.assertEqual(self.one_el_linked_list.head, None)
         self.assertEqual(self.one_el_linked_list.tail, None)
 
     def test_regression_clean_lot_el_list(self):
         self.lot_el_linked_list.clean()
+        for i in range(1000):
+            self.assertEqual(self.lot_el[i].next, None)
+            self.assertEqual(self.lot_el[i].value, i)
         self.assertEqual(self.lot_el_linked_list.head, None)
         self.assertEqual(self.lot_el_linked_list.tail, None)
 
@@ -103,17 +157,26 @@ class LinkedListTests(unittest.TestCase):
         self.assertEqual(self.lot_el_linked_list.len(), 1000)
 
     def test_regression_insert(self):
-        self.empty_linked_list.insert(None, Node(1))
-        self.assertEqual(self.empty_linked_list.head.value, 1)
-        self.assertEqual(self.empty_linked_list.tail.value, 1)
+        el1 = Node(1)
+        self.empty_linked_list.insert(None, el1)
+        self.assertEqual(self.empty_linked_list.head, el1)
+        self.assertEqual(self.empty_linked_list.tail, el1)
+        self.assertEqual(el1.next, None)
 
-        self.empty_linked_list.insert(None, Node(2))
-        self.assertEqual(self.empty_linked_list.head.value, 2)
-        self.assertEqual(self.empty_linked_list.tail.value, 1)
+        el2 = Node(2)
+        self.empty_linked_list.insert(None, el2)
+        self.assertEqual(self.empty_linked_list.head, el2)
+        self.assertEqual(self.empty_linked_list.tail, el1)
+        self.assertEqual(el1.next, None)
+        self.assertEqual(el2.next, el1)
 
-        self.empty_linked_list.insert(self.empty_linked_list.find(1), Node(3))
-        self.assertEqual(self.empty_linked_list.head.value, 2)
-        self.assertEqual(self.empty_linked_list.tail.value, 3)
+        el3 = Node(3)
+        self.empty_linked_list.insert(self.empty_linked_list.find(1), el3)
+        self.assertEqual(self.empty_linked_list.head, el2)
+        self.assertEqual(self.empty_linked_list.tail, el3)
+        self.assertEqual(el2.next, el1)
+        self.assertEqual(el1.next, el3)
+        self.assertEqual(el3.next, None)
 
     def tearDown(self):
         self.empty_linked_list = None
