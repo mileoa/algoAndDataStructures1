@@ -95,19 +95,16 @@ class LinkedList:
 
 
 def sum_of_linked_lists_nodes(linked_list1, linked_list2):
+    if linked_list1.len() != linked_list2.len():
+        return None
+
     result = LinkedList()
     node1 = linked_list1.head
     node2 = linked_list2.head
-    if node1 is None and node2 is None:
-        return result
 
     while node1 is not None:
-        if node2 is None:
-            return None
         result.add_in_tail(Node(node1.value + node2.value))
         node1 = node1.next
         node2 = node2.next
 
-    if node2 is None:
-        return result
-    return None
+    return result
