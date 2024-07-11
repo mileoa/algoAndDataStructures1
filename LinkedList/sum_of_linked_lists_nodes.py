@@ -95,7 +95,11 @@ class LinkedList:
 
 
 def sum_of_linked_lists_nodes(linked_list1, linked_list2):
-    if linked_list1.len() != linked_list2.len():
+    linked_list1_len = linked_list1.len()
+    linked_list2_len = linked_list2.len()
+    if linked_list1_len == 0 and linked_list2 == 0:
+        return LinkedList()
+    if linked_list1_len != linked_list2_len:
         return None
 
     result = LinkedList()
