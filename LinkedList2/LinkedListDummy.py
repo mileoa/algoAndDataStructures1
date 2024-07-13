@@ -8,7 +8,6 @@ class Node:
 class NodeDummy(Node):
     def __init__(self, v):
         super().__init__(v)
-        self.isDummy = True
 
 
 class LinkedList2:
@@ -19,19 +18,19 @@ class LinkedList2:
 
     @property
     def head(self):
-        if self.dummy.next is self.dummy:
+        if isinstance(self.dummy.next, NodeDummy):
             return None
         return self.dummy.next
 
     @property
     def tail(self):
-        if self.dummy.prev is self.dummy:
+        if isinstance(self.dummy.prev, NodeDummy):
             return None
         return self.dummy.prev
 
     def delete(self, val, all=False):
         node = self.dummy.next
-        while node is not self.dummy:
+        while not isinstance(node, NodeDummy):
             if node.value != val:
                 node = node.next
                 continue
@@ -46,7 +45,7 @@ class LinkedList2:
 
     def find(self, val):
         node = self.dummy.next
-        while node is not self.dummy:
+        while not isinstance(node, NodeDummy):
             if node.value == val:
                 return node
             node = node.next
@@ -55,7 +54,7 @@ class LinkedList2:
     def find_all(self, val):
         result = []
         node = self.dummy.next
-        while node is not self.dummy:
+        while not isinstance(node, NodeDummy):
             if node.value == val:
                 result.append(node)
             node = node.next
@@ -63,7 +62,7 @@ class LinkedList2:
 
     def clean(self):
         node = self.dummy.next
-        while node is not self.dummy:
+        while not isinstance(node, NodeDummy):
             next_node = node.next
             self.delete(node.value)
             node = next_node
@@ -71,7 +70,7 @@ class LinkedList2:
     def len(self):
         result = 0
         node = self.dummy.next
-        while node is not self.dummy:
+        while not isinstance(node, NodeDummy):
             result += 1
             node = node.next
         return result
