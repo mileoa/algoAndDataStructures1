@@ -1,5 +1,4 @@
 from Stack import Stack
-from StackReversed import StackReversed
 
 
 def postfix(stack_reversed):
