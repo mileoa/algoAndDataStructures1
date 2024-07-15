@@ -1,22 +1,6 @@
 from Stack import Stack
 
 
-def add(a, b):
-    return a + b
-
-
-def minus(a, b):
-    return a - b
-
-
-def multiply(a, b):
-    return a * b
-
-
-def divide(a, b):
-    return a / b
-
-
 def postfix(stack_reversed):
     stack = Stack()
 
@@ -30,14 +14,13 @@ def postfix(stack_reversed):
             num1 = stack.pop()
             num2 = stack.pop()
             if el == "+":
-                operation = add
+                stack.push(num1 + num2)
             elif el == "*":
-                operation = multiply
+                stack.push(num1 * num2)
             elif el == "-":
-                operation = minus
+                stack.push(num1 - num2)
             elif el == "/":
-                operation = divide
-            stack.push(operation(num1, num2))
+                stack.push(num1 / num2)
         el = stack_reversed.pop()
 
     return None
