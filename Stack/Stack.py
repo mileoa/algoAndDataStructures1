@@ -130,3 +130,7 @@ class Stack:
         if self.stack.tail is None:
             return None
         return self.stack.tail.value
+
+
+
+
