@@ -19,3 +19,5 @@ def postfix(stack_reversed):
         elif el == "=":
             return stack.pop()
         el = stack_reversed.pop()
+
+    return None
