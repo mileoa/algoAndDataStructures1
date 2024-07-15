@@ -16,6 +16,14 @@ def postfix(stack_reversed):
             num1 = stack.pop()
             num2 = stack.pop()
             stack.push(num1 * num2)
+        elif el == "-":
+            num1 = stack.pop()
+            num2 = stack.pop()
+            stack.push(num1 - num2)
+        elif el == "/":
+            num1 = stack.pop()
+            num2 = stack.pop()
+            stack.push(num1 / num2)
         elif el == "=":
             return stack.pop()
         el = stack_reversed.pop()

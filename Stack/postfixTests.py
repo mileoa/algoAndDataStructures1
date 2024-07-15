@@ -19,6 +19,15 @@ class PosfixTests(unittest.TestCase):
         s1.push(8)
         self.assertEqual(postfix(s1), 59)
 
+        s1 = StackReversed()
+        s1.push("=")
+        s1.push("-")
+        s1.push(81)
+        s1.push("*")
+        s1.push(9)
+        s1.push(9)
+        self.assertEqual(postfix(s1), 0)
+
     def test_border(self):
         s1 = StackReversed()
         s1.push("=")
