@@ -115,7 +115,7 @@ class StackReversed(Stack):
         super().__init__()
 
     def pop(self):
-        if self.stack.head is None:
+        if self.stack.len() == 0:
             return None
         result = self.stack.head.value
         self.stack.delete_head()
@@ -125,6 +125,6 @@ class StackReversed(Stack):
         self.stack.add_in_head(Node(value))
 
     def peek(self):
-        if self.stack.head is None:
+        if self.stack.len() == 0:
             return None
         return self.stack.head.value
