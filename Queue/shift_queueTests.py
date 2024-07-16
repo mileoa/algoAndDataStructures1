@@ -1,24 +1,24 @@
-class Queue:
-    def __init__(self):
-        self.queue = []
-        self.begin = -1
-        self.end = -1
+import unittest
+import random
 
-    def enqueue(self, item):
-        self.queue.append(item)
-        self.end += 1
-
-    def dequeue(self):
-        if self.begin == self.end:
-            return None
-        self.begin += 1
-        return self.queue[self.begin]
-
-    def size(self):
-        return self.end - self.begin
+from shift_queue import shift_queue, Queue
 
 
-def shift_queue(queue, n):
-    """Shift queue left."""
-    for i in range(n):
-        queue.enqueue(queue.deque())
+class shift_queueTests(unittest.TestCase):
+
+    def test_regression(self):
+
+        for i in range(6):
+            q = Queue()
+            for j in range(5):
+                q.enqueue(j)
+            q.shift(i)
+            el = q.dequeu()
+            if i < 5:
+                self.assertEqual(el, i + 1)
+            else:
+                self.assertEqual(el, 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
