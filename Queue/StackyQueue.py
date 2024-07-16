@@ -137,11 +137,6 @@ class StackyQueue:
         self.s2 = Stack()
 
     def enqueue(self, item):
-        if self.s1.size() == 0:
-            el = self.s2.pop()
-            while el is not None:
-                self.s1.push(el)
-                el = self.s2.pop()
         self.s1.push(item)
 
     def dequeue(self):
@@ -153,6 +148,4 @@ class StackyQueue:
         return self.s2.pop()
 
     def size(self):
-        if self.s1.size() != 0:
-            return self.s1.size()
-        return self.s2.size()
+        return self.s1.size() + self.s2.size()
