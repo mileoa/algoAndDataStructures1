@@ -115,7 +115,7 @@ class Stack:
         return self.stack.len()
 
     def pop(self):
-        if self.stack.tail is None:
+        if self.stack.len() == 0:
             return None
         result = self.stack.tail.value
         self.stack.delete_tail()
@@ -125,7 +125,7 @@ class Stack:
         self.stack.add_in_tail(Node(value))
 
     def peek(self):
-        if self.stack.tail is None:
+        if self.stack.len() == 0:
             return None
         return self.stack.tail.value
 
