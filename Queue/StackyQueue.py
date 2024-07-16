@@ -140,11 +140,12 @@ class StackyQueue:
         self.s1.push(item)
 
     def dequeue(self):
-        if self.s2.size() == 0:
+        if self.s2.size() != 0:
+            return self.s2.pop()
+        el = self.s1.pop()
+        while el is not None:
+            self.s2.push(el)
             el = self.s1.pop()
-            while el is not None:
-                self.s2.push(el)
-                el = self.s1.pop()
         return self.s2.pop()
 
     def size(self):
