@@ -89,11 +89,6 @@ def is_palindrome(string):
     for char in string:
         d.addTail(char)
 
-    el1 = d.removeFront()
-    el2 = d.removeTail()
-    while el1 is not None and el2 is not None:
-        if el1 != el2:
-            return False
-        el1 = d.removeFront()
-        el2 = d.removeTail()
+    while d.size() > 1:
+        if d.removeFront() != d.removeTail(): return False
     return True
