@@ -67,13 +67,9 @@ class OrderedList:
                     node.next.prev = None
                 if self.head is None:
                     self.tail = None
-            current = node
-            node = node.next
-            current.next = None
-            current.prev = None
-            node = node.next
-            return None
-        return None
+            node.next = None
+            node.prev = None
+            break
 
     def clean(self, asc):
         self.__ascending = asc
@@ -140,3 +136,7 @@ class OrderedStringList(OrderedList):
         if v1.strip() == v2.strip():
             return 0
         return 1
+
+
+
+
