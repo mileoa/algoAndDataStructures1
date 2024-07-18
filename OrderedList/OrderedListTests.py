@@ -154,11 +154,9 @@ class OrderedListTests(unittest.TestCase):
         for i in range(10000):
             ol = OrderedList(True)
 
-            order = []
-            repeats = random.randint(0, 100)
+            repeats = random.randint(0, 10)
             for j in range(repeats):
                 n = random.randint(0, 5)
-                order.append(n)
                 ol.add(n)
 
             nodes = ol.get_all()

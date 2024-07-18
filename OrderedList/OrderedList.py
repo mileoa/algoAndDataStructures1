@@ -52,26 +52,24 @@ class OrderedList:
     def delete(self, val):
         node = self.head
         while node is not None:
-            if node.value == val:
-                if node.prev is not None:
-                    node.prev.next = node.next
-                    if node.next is None:
-                        self.tail = node.prev
-                    else:
-                        node.next.prev = node.prev
-                else:
-                    self.head = self.head.next
-                    if node.next is not None:
-                        node.next.prev = None
-                    if self.head is None:
-                        self.tail = None
-                current = node
+            if node.value != val:
                 node = node.next
-                current.next = None
-                current.prev = None
-                break
-
-            node = node.next
+                continue
+            if node.prev is not None:
+                node.prev.next = node.next
+                if node.next is None:
+                    self.tail = node.prev
+                else:
+                    node.next.prev = node.prev
+            else:
+                self.head = self.head.next
+                if node.next is not None:
+                    node.next.prev = None
+                if self.head is None:
+                    self.tail = None
+            node.next = None
+            node.prev = None
+            break
 
     def clean(self, asc):
         self.__ascending = asc
