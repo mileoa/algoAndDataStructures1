@@ -106,9 +106,11 @@ class OrderedListTests(unittest.TestCase):
 
     def test_regression_delete(self):
         ol = OrderedList(True)
+
         for i in range(5):
             ol.add(i)
         nodes = ol.get_all()
+
         ol.delete(0)
         for i, node in enumerate(nodes):
             if i == 0:
@@ -147,6 +149,50 @@ class OrderedListTests(unittest.TestCase):
                 continue
             self.assertEqual(node.prev, nodes[i - 1])
             self.assertEqual(node.next, nodes[i + 1])
+
+    def test_random_delete(self):
+        for i in range(10000):
+            ol = OrderedList(True)
+
+            order = []
+            repeats = random.randint(0, 100)
+            for j in range(repeats):
+                n = random.randint(0, 5)
+                order.append(n)
+                ol.add(n)
+
+            nodes = ol.get_all()
+
+            to_delete = random.randint(0, 5)
+            if to_delete in [x.value for x in nodes]:
+                delete_index = [x.value for x in nodes].index(to_delete)
+            else:
+                delete_index = -1
+            deleted_node = ol.find(to_delete)
+
+            ol.delete(to_delete)
+
+            first = None
+            last = None
+            for k, n in enumerate(nodes):
+                if n == deleted_node:
+                    self.assertEqual(deleted_node.next, None)
+                    self.assertEqual(deleted_node.prev, None)
+                    continue
+                if first is None:
+                    first = n
+                last = n
+                for j in range(k + 1, repeats):
+                    if j != delete_index:
+                        self.assertEqual(n.next, nodes[j])
+                        break
+                for p in range(k - 1, -1, -1):
+                    if p != delete_index:
+                        self.assertEqual(n.prev, nodes[p])
+                        break
+
+            self.assertEqual(ol.head, first)
+            self.assertEqual(ol.tail, last)
 
 
 if __name__ == "__main__":
