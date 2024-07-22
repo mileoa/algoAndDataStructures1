@@ -13,10 +13,10 @@ class PowerSet:
         return value in self.slots
 
     def remove(self, value):
-        if not self.get(value):
-            return False
-        del self.slots[value]
-        return True
+        if self.get(value):
+            del self.slots[value]
+            return True
+        return False
 
     def intersection(self, set2):
         result = PowerSet()
@@ -55,7 +55,3 @@ class PowerSet:
             if i not in self.slots:
                 return False
         return True
-
-
-
-
