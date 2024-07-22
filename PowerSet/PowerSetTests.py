@@ -99,9 +99,7 @@ class PowerSetTests(unittest.TestCase):
         self.assertEqual(
             ps1.difference(ps2).slots, dict(((i, None) for i in range(2001)))
         )
-        self.assertEqual(
-            ps2.difference(ps1).slots, dict(((i, None) for i in range(2001)))
-        )
+        self.assertEqual(ps2.difference(ps1).slots, {})
 
     def test_regression_difference(self):
         ps1 = PowerSet()
@@ -117,8 +115,12 @@ class PowerSetTests(unittest.TestCase):
 
         self.assertTrue(isinstance(ps1.difference(ps2), PowerSet))
         self.assertEqual(
-            ps1.difference(ps2).slots, dict(((i, None) for i in range(2001)))
+            ps1.difference(ps2).slots, dict(((i, None) for i in range(0, 2001, 2)))
         )
+        self.assertEqual(
+            ps2.difference(ps1).slots, dict(((i, None) for i in range(1, 2001, 2)))
+        )
+        self.assertEqual(ps1.difference(ps1).slots, {})
 
     def test_empty_issubset(self):
         ps1 = PowerSet()
