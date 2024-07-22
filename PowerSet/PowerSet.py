@@ -2,7 +2,6 @@ class PowerSet:
 
     def __init__(self):
         self.slots = {}
-        # ваша реализация хранилища
 
     def size(self):
         return len(self.slots)
@@ -56,3 +55,7 @@ class PowerSet:
             if i not in self.slots:
                 return False
         return True
+
+
+
+
