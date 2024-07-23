@@ -33,9 +33,7 @@ class NativeDictionary:
         supposed_index = self.seek_slot(key)
         if supposed_index is None:
             return False
-        if self.slots[supposed_index] != key:
-            return False
-        return True
+        return self.slots[supposed_index] == key
 
     def put(self, key, value):
         index = self.seek_slot(key)
@@ -54,8 +52,3 @@ class NativeDictionary:
         if self.slots[supposed_index] is None:
             return None
         return self.values[supposed_index]
-
-
-
-
-
