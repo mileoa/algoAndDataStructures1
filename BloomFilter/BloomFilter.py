@@ -2,7 +2,7 @@ class BloomFilter:
 
     def __init__(self, f_len):
         self.filter_len = f_len
-        self.byte_list = bytearray(f_len)
+        self.bit_list = 0
 
     def hash1(self, str1):
         result = 0
@@ -19,15 +19,11 @@ class BloomFilter:
         return result % self.filter_len
 
     def add(self, str1):
-        self.byte_list[self.hash1(str1)] = 1
-        self.byte_list[self.hash2(str1)] = 1
+        self.bit_list |= self.hash1(str1)
+        self.bit_list |= self.hash2(str1)
         return None
 
     def is_value(self, str1):
-        return (
-            self.byte_list[self.hash1(str1)] == 1
-            and self.byte_list[self.hash2(str1)] == 1
-        )
-
-
-
+        return self.bit_list & (self.hash1(str1) | self.hash2(str1)) == self.hash1(
+            str1
+        ) | self.hash2(str1)
